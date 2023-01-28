@@ -1,0 +1,31 @@
+{
+  "name": "today-hymn",
+  "version": "1.0.0",
+  "description": "random hymn suggester",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EdenKangdw/random_hymn_suggester.git"
+  },
+  "keywords": [
+    "hymn",
+    "random",
+    "suggester"
+  ],
+  "author": "Eden",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EdenKangdw/random_hymn_suggester/issues"
+  },
+  "homepage": "https://github.com/EdenKangdw/random_hymn_suggester#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.0.1",
+    "sequelize": "^6.28.0",
+    "sequelize-cli": "^6.5.2"
+  }
+}
