@@ -17,9 +17,24 @@ app.listen(port, () => {
 })
 
 app.get('/api/hymns', async (req, res) => {
-    const { number } = req.query
-    const hymns = await Hymn.findAll({ where: { "number" : number} })
-    res.send(hymns)
+    const { theme, key, isRandom } = req.query
+    let where = {}
+    if (theme){
+        where["theme"] = theme
+    }
+    if (key){
+        where["key"] = key
+    } 
+    const hymns = await Hymn.findAll({
+        where : where
+    })
+    
+    if (isRandom) {
+        console.log(isRandom)
+        res.send(hymns[Math.floor(Math.random() * hymns.length)])
+    } else {
+        res.send(hymns)
+    }
 
 })
 
