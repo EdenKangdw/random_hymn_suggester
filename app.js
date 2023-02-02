@@ -6,6 +6,7 @@ const port = 3000;
 const db = require("./models"); // 특정 디렉토리만 적어줘도 그 아래에 있는 index.js 파일을 자동으로 찾음
 const { Hymn } = db;
 const cors = require("cors");
+const { where } = require("sequelize");
 
 app.use(cors());
 
@@ -18,19 +19,38 @@ app.listen(port, () => {
 });
 
 app.get("/api/themes", async (req, res) => {
+  const { key } = req.query;
+  let where = {};
+  if (key) {
+    where["key"] = key;
+  }
   const themes = await Hymn.findAll({
     attributes: ["theme"],
+    where: where,
     group: "theme",
   });
-  res.send(themes.map((theme) => theme.get("theme")).sort());
+  let result = themes.map((theme) => theme.get("theme")).sort();
+  console.log(result);
+  res.send(result);
 });
 
 app.get("/api/keys", async (req, res) => {
+  const { theme } = req.query;
+  console.log("@@@@", theme);
+  let where = {};
+  if (theme) {
+    where["theme"] = theme;
+  }
+
   const keys = await Hymn.findAll({
     attributes: ["key"],
+    where: where,
     group: "key",
   });
-  res.send(keys.map((key) => key.get("key")).sort());
+
+  let result = keys.map((key) => key.get("key")).sort();
+  console.log(result);
+  res.send(result);
 });
 
 app.get("/api/hymns", async (req, res) => {
@@ -46,10 +66,11 @@ app.get("/api/hymns", async (req, res) => {
     where: where,
   });
 
-  if (isRandom) {
-    console.log(isRandom);
-
-    console.log(hymns);
+  if (hymns.length == 0) {
+    res.send({ name: "error" });
+  } else if (isRandom) {
+    console.log(1);
+    console.log(hymns[Math.floor(Math.random() * hymns.length)]);
     res.send(hymns[Math.floor(Math.random() * hymns.length)]);
   } else {
     res.send(hymns);
