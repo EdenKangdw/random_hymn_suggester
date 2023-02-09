@@ -1,4 +1,4 @@
-version: '3'
+version: '3.8'
 services:
   mysql:
     image: mysql:8.0
@@ -10,4 +10,24 @@ services:
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - today_hymn_db:/var/lib/mysql
+
+  server:
+    image: today-hymn-server
+    container_name: server
+    build: 
+      context: ./
+      dockerfile: Dockerfile.server
+    ports:
+      - 3000:3000
+    depends_on:
+      - mysql
+    command: 
+      - sh 
+      - "init.sh"
     
+    
+volumes:
+  today_hymn_db:
+    driver: local
